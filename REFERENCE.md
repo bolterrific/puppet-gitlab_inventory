@@ -97,14 +97,6 @@ By default: `repo_targets` group from inventory
 
 Default value: `'repo_targets'`
 
-##### `gitlab_api_token`
-
-Data type: `String[1]`
-
-GitLab API token.  By default, this will use the `GITHUB_API_TOKEN` environment variable.
-
-Default value: `system::env('GITHUB_API_TOKEN')`
-
 ### `gitlab_inventory::latest_semver_tags`
 
 Report the highest SemVer tag for each repo (that has SemVer tags)
