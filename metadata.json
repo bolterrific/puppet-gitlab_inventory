@@ -1,6 +1,6 @@
 {
   "name": "bolterrific-gitlab_inventory",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Chris Tessmer",
   "summary": "A Bolt plugin that generates local Targets from GitLab group repositories",
   "license": "Apache-2.0",
