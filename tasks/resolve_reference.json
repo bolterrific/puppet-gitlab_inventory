@@ -23,7 +23,7 @@
     },
     "visibility": {
       "description": "When set, filters projects by visibility",
-      "type": "Optional[Array[Enum['public','internal','private']]]"
+      "type": "Optional[Enum['public','internal','private']]"
     },
     "allow_list": {
       "description": "repo names/patterns to include in inventory, drops all other repos",
