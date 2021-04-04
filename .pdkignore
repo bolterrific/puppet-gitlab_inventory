@@ -1,4 +1,6 @@
 .git/
+.task_cache.json
+.plan_cache.json
 .*.sw[op]
 .metadata
 .yardoc
