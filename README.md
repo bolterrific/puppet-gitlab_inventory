@@ -7,7 +7,6 @@
 * [Description](#description)
 * [Setup](#setup)
   * [Setup Requirements](#setup-requirements)
-  * [Beginning with gitlab_inventory](#beginning-with-gitlab_inventory)
 * [Usage](#usage)
   * [Using the plugin in a Bolt inventory file](#using-the-plugin-in-a-bolt-inventory-file)
 * [Reference](#reference)
@@ -29,32 +28,12 @@ This module also contains an example Bolt project with a working
 
 ### Setup Requirements
 
-* [Puppet Bolt 2.15+][bolt], installed from an [OS package][bolt-install] (don't use the RubyGem)
+* [Puppet Bolt][bolt]
+  * Preferred version: Bolt 3.17+
+  * Strict minimum is Bolt 2.15+ (untested)
+  * Bolt must be installed from an [OS package][bolt-install] (don't use the RubyGem)
   * **Note:** The example `inventory.yaml` assumes Bolt 2.37+ (see comments)
 * A GitLab API personal auth token with sufficient scope
-* The [`gitlab` RubyGem][gitlab-rb]
-
-### Beginning with gitlab_inventory
-
-1. If you are using [rvm], you **must disable it** before running bolt:
-
-   ```sh
-   rvm use system
-   ```
-
-2. Install the RubyGem dependencies using Bolt's `gem` command
-
-   On most platforms:
-
-   ```sh
-   /opt/puppetlabs/bolt/bin/gem install --user-install -g gem.deps.rb
-   ```
-
-   On Windows:
-
-   ```pwsh
-   "C:/Program Files/Puppet Labs/Bolt/bin/gem.bat" install --user-install -g gem.deps.rb
-   ```
 
 ## Usage
 
@@ -69,7 +48,7 @@ An example `inventory.yaml` file:
 version: 2
 
 groups:
-  - name: repo_targets
+  - name: gitlab_projects
     targets:
       - _plugin: gitlab_inventory  # <- Plugin provides `local` Targets
         group:                     # <- GitLab group with Target repos
@@ -85,7 +64,7 @@ groups:
           - '/^pupmod-simp/'
           - 'simp-core'
         block_list:
-          - '/_/'
+          - '/gitlab-oss/'
 config:
   transport: local
   local:
@@ -102,13 +81,13 @@ See [REFERENCE.md](./REFERENCE.md)
 
 ## Limitations
 
-In order to provide an example bolt project in the same module as the inventory
+In order to provide an example Bolt project in the same module as the inventory
 plugin, the example `bolt-project.yaml` adds `..` to the `modulepath`.  This
-means that (when using the example bolt project) the folder containing this repo
+means that (when using the example Bolt project) the folder containing this repo
 _must_ be named `gitlab_inventory`.  There may be other weirdness, depending on
-this folders' neighbors.
+whether neighboring directories contain Bolt projects or Puppet modules.
 
-This quirk only affects the example bolt project; it will not affect the
+This quirk only affects the example Bolt project; it will not affect the
 inventory plugin or Bolt plans from your own Bolt projects.
 
 ## Development
