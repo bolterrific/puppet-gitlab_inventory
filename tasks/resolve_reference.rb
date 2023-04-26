@@ -2,17 +2,20 @@
 # frozen_string_literal: true
 
 require_relative ENV['TASK_HELPER_RB'] || '../../ruby_task_helper/files/task_helper.rb'
+# require_relative ENV['PLUGIN_HELPER_RB'] || '../../ruby_plugin_helper/lib/plugin_helper.rb'
 
 require 'pathname'
 require 'json'
 require 'yaml'
 
-require 'uri'
 require 'faraday'
+require 'uri'
+
 require 'faraday_middleware'
 
 # Ruby lifted and chopped from
-#   https://github.com/puppetlabs/vmfloaty + https://github.com/puppetlabs/txgh
+#   https://github.com/puppetlabs/vmfloaty
+#   https://github.com/puppetlabs/txgh
 class Http
   def self.url?(url)
     uri = URI.parse(url)
@@ -64,7 +67,7 @@ class GitLabMRI
       unless links.key? 'next'
         raise("ERROR: totally expected a 'next' key in 'links' header: #{res.headers['link']}")
       end
-      res = @conn.get(links['next'].strip)
+      res = api_get(links['next'].strip)
       data += res.body
     end
     data
@@ -72,17 +75,29 @@ class GitLabMRI
 
   def namespaces(search: )
     url = "#{@conn.url_prefix}/namespaces"
-    depaginate( @conn.get(url) )
+    depaginate( api_get(url) )
   end
 
   def group_projects(group, order_by: 'name', sort: 'asc')
     url = "#{@conn.url_prefix}/groups/#{group}/projects?order_by=#{order_by}&sort=#{sort}"
-    depaginate( @conn.get(url) )
+    depaginate( api_get(url) )
   end
 
   def user_projects(user, order_by: 'name', sort: 'asc')
     url = "#{@conn.url_prefix}/users/#{user}/projects?order_by=#{order_by}&sort=#{sort}"
-    depaginate( @conn.get(url) )
+    depaginate( api_get(url) )
+  end
+
+  def api_get(url)
+    response = @conn.get(url)
+
+    unless response.success?
+      if response.body.key?('error')
+        warn "WARNING: #{response.status} response from server when connecting to #{url}"
+        raise "#{response.status} error: #{response.body['error']} - #{response.body['error_description']}"
+      end
+    end
+    response
   end
 end
 
