@@ -31,7 +31,7 @@ This module also contains an example Bolt project with a working
 * [Puppet Bolt][bolt]
   * Preferred version: Bolt 3.17+
   * Strict minimum is Bolt 2.15+ (untested)
-  * Bolt must be installed from an [OS package][bolt-install] (don't use the RubyGem)
+  * Bolt must be installed from an [OS package][bolt-install] (don't use the `bolt` RubyGem)
   * **Note:** The example `inventory.yaml` assumes Bolt 2.37+ (see comments)
 * A GitLab API personal auth token with sufficient scope
 
@@ -59,6 +59,7 @@ groups:
         gitlab_api_token:          # <- API token with scope that can get repos
           _plugin: env_var         # <- (provided by another Bolt plugin)
           var: GITLAB_API_PRIVATE_TOKEN
+        gitlab_api_endpoint: https://gitlab.com/api/v4
         archived_repos: true
         allow_list:
           - '/^pupmod-simp/'
