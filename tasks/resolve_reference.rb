@@ -2,20 +2,17 @@
 # frozen_string_literal: true
 
 require_relative ENV['TASK_HELPER_RB'] || '../../ruby_task_helper/files/task_helper.rb'
-# require_relative ENV['PLUGIN_HELPER_RB'] || '../../ruby_plugin_helper/lib/plugin_helper.rb'
 
 require 'pathname'
 require 'json'
 require 'yaml'
 
-require 'faraday'
 require 'uri'
-
+require 'faraday'
 require 'faraday_middleware'
 
 # Ruby lifted and chopped from
-#   https://github.com/puppetlabs/vmfloaty
-#   https://github.com/puppetlabs/txgh
+#   https://github.com/puppetlabs/vmfloaty + https://github.com/puppetlabs/txgh
 class Http
   def self.url?(url)
     uri = URI.parse(url)
